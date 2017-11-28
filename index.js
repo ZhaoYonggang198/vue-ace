@@ -6,6 +6,11 @@
 
 const ace = require('brace');
 
+import 'brace/ext/modelist'
+import 'brace/ext/themelist'
+const modelist = ace.acequire('ace/ext/modelist')
+const themelist = ace.acequire('ace/ext/themelist')
+
 module.exports = {
     template: '<div :style="{height: height, width: width}"></div>',
 
@@ -48,7 +53,9 @@ module.exports = {
         var theme = self.theme;
         var editor = self.editor = ace.edit(self.$el);
         editor.$blockScrolling = Infinity;
+        require('brace/mode/' + lang);
         editor.getSession().setMode('ace/mode/' + lang);
+        require('brace/theme/' + theme);
         editor.setTheme('ace/theme/' + theme);
         editor.setValue(self.content, 1);
         editor.on('change', function () {
@@ -64,6 +71,7 @@ module.exports = {
         },
 
         theme: function (newTheme) {
+            require('brace/theme/' + newTheme);
             this.editor.setTheme('ace/theme/' + newTheme);
         }
     }
